@@ -7,17 +7,17 @@ export function App() {
     temperature: 0,
     humidity: 0,
     weather_description: "",
-    wind_speed: 0
+    wind_speed: ""
   })
   const [location, setLocation] = useState("")
 
   async function gettingNewGeolocation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-  
-    const formData = new FormData(event.currentTarget)
-    const location = formData.get("location")
 
-    const data = await apiGeolocation.get(`${location}&limit=1&appid=fa658590c2ae1eaef798a14b62363b93`)
+    const formData = new FormData(event.currentTarget)
+    const location = formData.get("location") as string
+
+    const data = await apiGeolocation.get(`${location}&limit=1&appid=${import.meta.env.OPENWEATHER_PRIVATE_KEY}`)
     const response = data.data[0]
 
     const latitude = response.lat
@@ -28,16 +28,15 @@ export function App() {
   }
 
   async function handleSubmitLocation(latitude: number, longitude: number) {
-    const data = await apiWeatherData.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&lang=pt_br&appid=fa658590c2ae1eaef798a14b62363b93`)
+    const data = await apiWeatherData.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&lang=pt_br&appid=${import.meta.env.OPENWEATHER_PRIVATE_KEY}`)
     const response = data.data
 
     console.log(response)
     setWeatherData({...weatherData, 
-      location: "teste",
       temperature: response.current.temp.toFixed(),
       humidity: response.current.humidity,
       weather_description: response.current.weather[0].description,
-      wind_speed: response.current.wind_speed
+      wind_speed: (response.current.wind_speed * 3.6).toFixed(0)
     })
   }
 

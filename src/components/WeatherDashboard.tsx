@@ -7,7 +7,7 @@ interface WeatherDashboardProps {
   temperature: number,
   location: string,
   weather_description: string,
-  wind_speed: number,
+  wind_speed: string,
   humidity: number,
 }
 
