@@ -31,39 +31,41 @@ export function WeatherDashboard({
         </form>
       </div>
 
-      <div className="flex gap-2">
-        <div className="bg-zinc-900 text-wrap rounded-3xl p-4 w-40 h-full text-center drop-shadow-2xl">
-          <span className="text-zinc-100 text-8xl">{temperature} Cº</span>
-        </div>
-
-        <div className="flex flex-col flex-1 gap-2">
-          <div className="bg-zinc-900 w-full h-28 rounded-3xl flex justify-center items-center drop-shadow-2xl">
-            {location && (
-              <div className="flex items-center justify-center flex-wrap gap-2">
-                <img src="/usa_flag.jpeg" alt="Bandeira do Brasil" className="size-12 rounded-full bg-cover" />
-                <span className="text-zinc-100 text-2xl">{location}</span>
-              </div>
-            )}
+      {location !== "" ? (
+        <div className="flex gap-2">
+          <div className="bg-zinc-900 text-wrap rounded-3xl p-4 w-40 h-full text-center drop-shadow-2xl">
+            <span className="text-zinc-100 text-8xl">{temperature} Cº</span>
           </div>
 
-          <div className="bg-zinc-900 w-full h-28 rounded-3xl flex flex-col gap-4 items-center justify-center drop-shadow-2xl">
-            <span className="text-zinc-100 text-2xl">{weather_description}</span>
-            <div className="flex h-4 items-center gap-2">
-              <span className="text-zinc-400 flex items-center gap-2">
-                <FontAwesomeIcon icon={faWind} />
-                {wind_speed}km/h
-              </span>
+          <div className="flex flex-col flex-1 gap-2">
+            <div className="bg-zinc-900 w-full h-28 rounded-3xl flex justify-center items-center drop-shadow-2xl">
+              {location && (
+                <div className="flex items-center justify-center flex-wrap gap-2">
+                  <img src="/usa_flag.jpeg" alt="Bandeira do Brasil" className="size-12 rounded-full bg-cover" />
+                  <span className="text-zinc-100 text-2xl">{location}</span>
+                </div>
+              )}
+            </div>
 
-              <div className="w-px h-full bg-zinc-500" />
+            <div className="bg-zinc-900 w-full h-28 rounded-3xl flex flex-col gap-4 items-center justify-center drop-shadow-2xl">
+              <span className="text-zinc-100 text-2xl">{weather_description}</span>
+              <div className="flex h-4 items-center gap-2">
+                <span className="text-zinc-400 flex items-center gap-2">
+                  <FontAwesomeIcon icon={faWind} />
+                  {wind_speed}km/h
+                </span>
 
-              <span className="text-zinc-400 items-center flex gap-2">
-                <FontAwesomeIcon icon={faDroplet} />
-                {humidity}%
-              </span>
+                <div className="w-px h-full bg-zinc-500" />
+
+                <span className="text-zinc-400 items-center flex gap-2">
+                  <FontAwesomeIcon icon={faDroplet} />
+                  {humidity}%
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }
