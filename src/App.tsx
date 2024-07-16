@@ -7,7 +7,8 @@ export function App() {
     temperature: 0,
     humidity: 0,
     weather_description: "",
-    wind_speed: ""
+    wind_speed: "",
+    weather_conditions_icon: ""
   })
   const [greeting, setGreeting] = useState("")
   const [location, setLocation] = useState("")
@@ -51,13 +52,14 @@ export function App() {
       temperature: response.current.temp.toFixed(),
       humidity: response.current.humidity,
       weather_description: response.current.weather[0].description,
-      wind_speed: (response.current.wind_speed * 3.6).toFixed(0)
+      wind_speed: (response.current.wind_speed * 3.6).toFixed(0),
+      weather_conditions_icon: response.current.weather[0].icon
     })
   }
 
   return (
-    <div className="flex items-center flex-col justify-center h-svh bg-gradient-to-b from-sky-600 to-amber-900 ...">
-      <div className="text-sky-50 fixed top-0 text-4xl text-center py-4">
+    <div className="flex items-center flex-col h-lvh bg-gradient-to-b from-sky-600 to-amber-900 ...">
+      <div className="text-sky-50 text-4xl text-center py-4 block">
         <span>
           {greeting}
         </span>
@@ -70,6 +72,7 @@ export function App() {
         humidity={weatherData.humidity}
         weather_description={weatherData.weather_description}
         wind_speed={weatherData.wind_speed}
+        weather_conditions_icon={weatherData.weather_conditions_icon}
       />
     </div>
   )
