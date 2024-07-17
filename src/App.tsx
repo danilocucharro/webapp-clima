@@ -8,7 +8,8 @@ export function App() {
     humidity: 0,
     weather_description: "",
     wind_speed: "",
-    weather_conditions_icon: ""
+    weather_conditions_icon: "",
+    country_flag_icon: ""
   })
   const [greeting, setGreeting] = useState("")
   const [location, setLocation] = useState("")
@@ -33,17 +34,29 @@ export function App() {
     const formData = new FormData(event.currentTarget)
     const location = formData.get("location") as string
 
-    const data = await apiGeolocation.get(`${location}&limit=1&appid=${import.meta.env.VITE_OPENWEATHER_PRIVATE_KEY}`)
-    const response = data.data[0]
+    try {
+      const data = await apiGeolocation.get(`${location}&limit=1&appid=${import.meta.env.VITE_OPENWEATHER_PRIVATE_KEY}`)
+      const response = data.data[0]
 
-    const latitude = response.lat
-    const longitude = response.lon
+      const latitude = response.lat
+      const longitude = response.lon
+      const countryIcon = response.country
 
-    await handleSubmitLocation(latitude, longitude)
-    setLocation(location)
+      const locationForm = document.getElementById("locationForm") as HTMLFormElement
+
+      await handleSubmitLocation(latitude, longitude, countryIcon)
+      locationForm.reset()
+      setLocation(location)
+    } catch (error) {
+      setLocation("")
+    }
   }
 
-  async function handleSubmitLocation(latitude: number, longitude: number) {
+  async function handleSubmitLocation(
+    latitude: number,
+    longitude: number, 
+    country_icon: string
+    ) {
     const data = await apiWeatherData.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&lang=pt_br&appid=${import.meta.env.VITE_OPENWEATHER_PRIVATE_KEY}`)
     const response = data.data
 
@@ -53,13 +66,14 @@ export function App() {
       humidity: response.current.humidity,
       weather_description: response.current.weather[0].description,
       wind_speed: (response.current.wind_speed * 3.6).toFixed(0),
-      weather_conditions_icon: response.current.weather[0].icon
+      weather_conditions_icon: response.current.weather[0].icon,
+      country_flag_icon: country_icon
     })
   }
 
   return (
-    <div className="flex items-center flex-col h-lvh bg-gradient-to-b from-sky-600 to-amber-900 ...">
-      <div className="text-sky-50 text-4xl text-center py-4 block">
+    <div className="flex items-center justify-center flex-col h-lvh bg-gradient-to-b from-sky-600 to-amber-900 ...">
+      <div className="text-sky-50 text-3xl py-4">
         <span>
           {greeting}
         </span>
@@ -73,6 +87,7 @@ export function App() {
         weather_description={weatherData.weather_description}
         wind_speed={weatherData.wind_speed}
         weather_conditions_icon={weatherData.weather_conditions_icon}
+        country_flag_icon={weatherData.country_flag_icon}
       />
     </div>
   )

@@ -9,7 +9,8 @@ interface WeatherDashboardProps {
   weather_description: string,
   wind_speed: string,
   humidity: number,
-  weather_conditions_icon: string
+  weather_conditions_icon: string,
+  country_flag_icon: string,
 }
 
 export function WeatherDashboard({ 
@@ -19,12 +20,13 @@ export function WeatherDashboard({
   weather_description,
   wind_speed,
   humidity,
-  weather_conditions_icon
+  weather_conditions_icon,
+  country_flag_icon
  }: WeatherDashboardProps) {
   return(
     <div className="flex flex-col gap-2 w-96 h-80">
       <div className="flex p-2 w-full h-12 rounded-3xl bg-zinc-900 text-2xl shadow-sm shadow-zinc-900">
-        <form onSubmit={handleSubmitLocation} className="w-full pl-2 flex gap-2">
+        <form id="locationForm" onSubmit={handleSubmitLocation} className="w-full pl-2 flex gap-2">
           <input type="text" name="location" placeholder="Local" className="w-full bg-transparent text-zinc-100"/>
 
           <button type="submit" className="bg-sky-600 w-12 rounded-3xl flex items-center justify-center hover:bg-sky-500">
@@ -43,7 +45,7 @@ export function WeatherDashboard({
             <div className="bg-zinc-900 w-full h-28 rounded-3xl flex justify-center items-center shadow-md shadow-zinc-900">
               {location && (
                 <div className="flex flex-col items-center text-center justify-center">
-                  <img src="/usa_flag.jpeg" alt="Bandeira do Brasil" className="size-10 rounded-full bg-cover" />
+                  <img src={`https://flagsapi.com/${country_flag_icon}/flat/64.png`} alt={`Bandeira do País de ${location}`} className="size-10 rounded-full bg-cover" />
                   <span className="text-zinc-100 text-2xl">{location}</span>
                 </div>
               )}
